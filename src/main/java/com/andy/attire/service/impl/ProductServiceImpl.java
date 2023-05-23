@@ -6,7 +6,11 @@ import com.andy.attire.dto.response.ProductResponseDto;
 import com.andy.attire.entity.ProductEntity;
 import com.andy.attire.repository.ProductRepository;
 import com.andy.attire.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,19 +23,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDto getProducts(int page, int pageSize) {
-
-        var productResponseDto =  new ProductResponseDto();
-        var count = productRepository.count();
-        var offset = (page - 1) * pageSize;
-        var optionalProductEntities = productRepository.getProducts(offset, pageSize);
-
-        productResponseDto.setTotal(count);
-        if (optionalProductEntities.isPresent()){
-           var listEntities =  optionalProductEntities.get();
-           var listDtos =  listEntities.stream().map(ProductMapper::convertToDto).toList();
-           productResponseDto.setProducts(listDtos);
-
-        }
+        // client-side page starts at 1 however, JPA begins at 0;
+        page = page-1;
+        var productResponseDto = new ProductResponseDto();
+        Page<ProductEntity> pageEntity = productRepository.findAll(PageRequest.of(page, pageSize));
+        List<ProductDto> productDtoList = pageEntity.stream().map(ProductMapper::convertToDto).toList();
+        productResponseDto.setProducts(productDtoList);
+        productResponseDto.setTotal(pageEntity.getTotalElements());
         return productResponseDto;
     }
 
