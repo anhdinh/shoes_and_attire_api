@@ -14,35 +14,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductEntity {
-    public ProductEntity(ProductDto productDto){
-        this.id= productDto.getId();
-        this.title = productDto.getTitle();
-        this.description = productDto.getDescription();
-        this.price = productDto.getPrice();
-        this.discountPercentage = productDto.getDiscountPercentage();
-        this.rating = productDto.getRating();
-        this.stock = productDto.getStock();
-        this.category = productDto.getCategory();
-        this.thumbnail = productDto.getThumbnail();
-        this.delete =  productDto.isDelete();
-        this.brand = productDto.getBrand();
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String title;
     @Column(name = "\"description\"")
     private String description;
     private BigDecimal price;
     @Column(name = "\"discountPercentage\"")
-    private double discountPercentage;
-    private double rating;
-    private int stock;
+    private Double discountPercentage;
+    private Double rating;
+    private Integer stock;
     private String brand;
     private String category;
     private String thumbnail;
     @Column(name = "\"delete\"")
-    private boolean delete;
+    private Boolean delete;
     @Transient
     private List<String> images;
 
