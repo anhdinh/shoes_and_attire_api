@@ -44,15 +44,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto saveProduct(ProductDto productDto) {
         ProductEntity productEntity = ProductMapper.convertToEntity(productDto);
-        productDto = new ProductDto(productRepository.save(productEntity));
-        return productDto;
+        return ProductMapper.convertToDto(productRepository.save(productEntity));
     }
 
     @Override
     public ProductDto editProduct(ProductDto productDto) {
         var productEntity = productRepository.save(ProductMapper.convertToEntity(productDto));
-        return new ProductDto(productEntity);
+        return ProductMapper.convertToDto(productEntity);
     }
-
 
 }
