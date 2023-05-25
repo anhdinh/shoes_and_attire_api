@@ -1,6 +1,6 @@
 package com.andy.attire.entity;
 
-import com.andy.attire.dto.ProductDto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class ProductEntity {
     @Column(name = "\"description\"")
     private String description;
     private BigDecimal price;
-    @Column(name = "\"discountPercentage\"")
+    @Column(name = "\"discount_percentage\"")
     private Double discountPercentage;
     private Double rating;
     private Integer stock;
@@ -30,8 +30,9 @@ public class ProductEntity {
     private String thumbnail;
     @Column(name = "\"delete\"")
     private Boolean delete;
-    @Transient
-    private List<String> images;
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference
+    private List<ProductImageEntity> images;
 
     public String toString(){
         return "product: Id:"+id +";Title"+ title;

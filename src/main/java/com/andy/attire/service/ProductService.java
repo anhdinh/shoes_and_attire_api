@@ -11,5 +11,5 @@ public interface ProductService {
 
     Optional<ProductDto> getSingleProductById(Long productId);
 
-    ProductResponseDto getProducts(int page, int pageSize);
+    ProductResponseDto getProducts(int page, int pageSize) throws Exception;
 }
