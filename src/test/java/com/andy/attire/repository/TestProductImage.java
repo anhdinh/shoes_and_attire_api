@@ -2,6 +2,8 @@ package com.andy.attire.repository;
 
 import com.andy.attire.entity.ProductImageEntity;
 import com.andy.attire.entity.resultset.ResultSet;
+import com.andy.attire.entity.resultset.ResultSetInterface;
+import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,17 @@ public class TestProductImage {
 
     @Test
     public void testGetCount(){
-        ResultSet result = imageRepository.countData(1L);
-        System.out.println(result);
+        var sqlMapping = imageRepository.usingSqlResultSetMapping(1L);
+        var projection = imageRepository.countInterfaceProjection(1L);
+        var directToDto = imageRepository.directMappingToDto(1L);
+        var tuple= imageRepository.findByUsingTuple(1L);
+        System.out.println(sqlMapping);
+        System.out.println("----------");
+        System.out.println("projection count :"+projection.getCount());
+        System.out.println("-----------");
+        System.out.println(directToDto);
+        System.out.println("----------");
+        System.out.println(tuple.get(0,Long.class));
+        System.out.println(tuple.get(1,String.class));
     }
 }
