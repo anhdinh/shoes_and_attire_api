@@ -55,7 +55,7 @@ public class TestProductImage {
 
     @Test
     public void testGetCount(){
-        ResultSet result = imageRepository.countData();
+        ResultSet result = imageRepository.countData(1L);
         System.out.println(result);
     }
 }
