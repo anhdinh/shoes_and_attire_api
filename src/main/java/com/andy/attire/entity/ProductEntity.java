@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Formula;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,14 +26,17 @@ public class ProductEntity {
     private BigDecimal price;
     @Column(name = "\"discount_percentage\"")
     private Double discountPercentage;
-    private Double rating;
     private Integer stock;
     private String brand;
     private String category;
     private String thumbnail;
     @Column(name = "\"delete\"")
     private Boolean delete;
-    @OneToMany(mappedBy = "product")
+    @Formula("(select AVG(r.vote) from ratting r where r.product_id = id)")
+    @Basic(fetch=FetchType.LAZY)
+    private Double rating;
+
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<ProductImageEntity> images;
 

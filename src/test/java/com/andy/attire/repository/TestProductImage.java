@@ -1,17 +1,11 @@
 package com.andy.attire.repository;
 
 import com.andy.attire.entity.ProductImageEntity;
-import com.andy.attire.entity.resultset.ResultSet;
-import com.andy.attire.entity.resultset.ResultSetInterface;
-import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.util.Assert;
-
-import javax.xml.transform.Result;
 
 @SpringBootTest
 

@@ -1,7 +1,10 @@
 package com.andy.attire.dto.mapper;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 
 public abstract class BaseMapperAbs {
-    protected final static ModelMapper modelMapper =  new ModelMapper();
+    protected static ModelMapper getModelMapper(){
+        return new ModelMapper();
+    }
 }

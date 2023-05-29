@@ -1,6 +1,8 @@
 package com.andy.attire.service.impl;
 
 import com.andy.attire.dto.ProductDto;
+import com.andy.attire.dto.mapper.ProductImageMapper;
+import com.andy.attire.entity.ProductImageEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import com.andy.attire.entity.ProductEntity;
@@ -40,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     public Optional<ProductDto> getSingleProductById(Long productId) {
         Optional<ProductDto> productDtoOptional;
         var productEntityOptional = productRepository.findById(productId);
-        productDtoOptional = productEntityOptional.map(ProductMapper::convertToDto);
+        productDtoOptional = productEntityOptional.map(ProductMapper::convertToDtoWithImages);
         return productDtoOptional;
     }
 
