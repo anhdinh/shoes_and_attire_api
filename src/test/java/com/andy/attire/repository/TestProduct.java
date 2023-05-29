@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.annotation.Rollback;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,14 +22,13 @@ import static org.hamcrest.Matchers.instanceOf;
 
 @DisplayName("Product Test Repository")
 @SpringBootTest
+@Transactional
 public class TestProduct {
 
     @Autowired
     private ProductRepository productRepository;
 
     @Test
-    @Transactional
-    @Rollback(value = true)
     public void testInsert() {
         List<ProductEntity> list = IntStream.rangeClosed(1, 40).mapToObj(i -> {
             ProductEntity productEntity = new ProductEntity();
@@ -49,7 +47,6 @@ public class TestProduct {
     }
 
     @Test
-    @Transactional
     public void testConvertProductToDto() {
         var product = productRepository.getReferenceById(1L);
         var dto = ProductMapper.convertToDto(product);
@@ -73,6 +70,17 @@ public class TestProduct {
     public void testSortProductByName() {
         Page<ProductEntity> productEntities = productRepository.findAll(PageRequest.of(1, 12).withSort(Sort.by(Sort.Direction.ASC, "id")));
         productEntities.stream().map(ProductEntity::getTitle).forEach(System.out::println);
+    }
+
+    @Test
+    @DisplayName("Test get Most products")
+    public void testGetMostWantedProduct() {
+        PageRequest pageRequest = PageRequest.of(0, 8);
+        var productEntityPage = productRepository.getMostWantedProduct(pageRequest);
+           productEntityPage.get().toList().forEach(el->{
+               System.out.println(el.getProduct());
+           });
+
     }
 
     public static double randomRating(double rangeMin, double rangeMax) {
